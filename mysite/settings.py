@@ -11,8 +11,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
 
 from django.contrib.admin import AdminSite
+
+
+env = Env()
+env.read_env()
 
 AdminSite.site_header = 'Polls administration'
 AdminSite.site_title = 'Polls site admin'
@@ -25,12 +30,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h0=a0!r6f3kwf042bkzp&++z#!-hxi8^%9=q+$3$@s_=+3w-25'
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', subcast=str)
 
 
 # Application definition
